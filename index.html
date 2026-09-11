@@ -16,7 +16,7 @@
 <body>
   <main class="terminal" id="terminal">
     <header class="topbar">
-      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.3</span></div>
+      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.4</span></div>
       <div class="top-actions">
         <button id="installBtn" class="install-button" type="button">[ INSTALL PWA ]</button>
         <div class="status" id="connectionStatus"><span class="dot"></span> ONLINE</div>
@@ -28,15 +28,17 @@
       <div class="ascii-map" id="asciiMap" aria-hidden="true"></div>
 
       <section class="panel transfer-panel">
-        <div class="line"><span>FILE</span><b id="fileName">cat_photo.zip</b></div>
+        <div class="line"><span>FILE</span><b id="fileName">cat_photo_FINAL_final_v7.zip</b></div>
         <div class="line"><span>SIZE</span><b id="fileSize">12.00 MB</b></div>
         <div class="progress-wrap">
           <div class="progress-label"><span id="progressText">0.00%</span><span id="progressAmount">0 B / 12.00 MB</span></div>
           <div class="progress" id="progressBar">[........................................]</div>
         </div>
-        <div class="stats-grid">
-          <div><span>BANK</span><b id="bankData">0 B</b></div>
-          <div><span>SPEED</span><b id="speed">0 B/s</b></div>
+        <div class="speed-hero">
+          <span>DOWNLOAD SPEED</span>
+          <b id="speed">0 B/s</b>
+        </div>
+        <div class="stats-grid compact-stats">
           <div><span>CLICK</span><b id="clickPower">64.00 KB</b></div>
           <div><span>PACKETS</span><b id="packets">0</b></div>
           <div><span>RUN DATA</span><b id="totalData">0 B</b></div>
@@ -65,6 +67,10 @@
 
       <section class="layout">
         <section class="panel upgrades">
+          <div class="wallet-bar">
+            <div><span>AVAILABLE BANK</span><b id="bankData">0 B</b></div>
+            <div><span>DOWNLOAD FAIL RISK</span><b id="failRisk">0.80%</b></div>
+          </div>
           <div class="panel-title">:: HARDWARE / AUTOMATION ::</div>
           <div id="upgradeList"></div>
         </section>

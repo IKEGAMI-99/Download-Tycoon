@@ -1,4 +1,22 @@
 (()=>{
+  const funnyNames=[
+    'ねこ写真_最終最終.zip',
+    '本当に安全なパッチ.iso',
+    'あとで見る動画_12年目.mkv',
+    '開きっぱなしタブ8473個.dat',
+    '家族LINE黒歴史.tar',
+    '消したはずの履歴.db',
+    'クラウド全部_触るな.tar',
+    '地球バックアップ_月曜前.img',
+    '月のWiFiパスワード.txt',
+    '太陽系キャッシュ_消すな.bin',
+    '宇宙_本当の最終版.tar'
+  ];
+  funnyNames.forEach((name,i)=>{if(files[i])files[i][0]=name;});
+  if(els.fileName){
+    Object.assign(els.fileName.style,{maxWidth:'72%',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',display:'block'});
+  }
+
   let bootSnapshot=null;
   try{const raw=localStorage.getItem('download-tycoon-save-v3');if(raw)bootSnapshot=JSON.parse(raw);}catch{}
 

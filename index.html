@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050807" />
-  <meta name="description" content="ASCII terminal incremental game. Build a network, automate downloads, and scale beyond Earth." />
+  <meta name="description" content="ASCII terminal incremental game. Build a network, automate downloads, and keep the connection alive." />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -16,10 +16,10 @@
 <body>
   <main class="terminal" id="terminal">
     <header class="topbar">
-      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.2</span></div>
+      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.3</span></div>
       <div class="top-actions">
         <button id="installBtn" class="install-button" type="button">[ INSTALL PWA ]</button>
-        <div class="status"><span class="dot"></span> ONLINE</div>
+        <div class="status" id="connectionStatus"><span class="dot"></span> ONLINE</div>
       </div>
     </header>
 
@@ -41,16 +41,17 @@
           <div><span>PACKETS</span><b id="packets">0</b></div>
           <div><span>RUN DATA</span><b id="totalData">0 B</b></div>
           <div><span>FILES</span><b id="filesDone">0</b></div>
-          <div><span>COMBO</span><b id="combo">x1.00</b></div>
-          <div><span>KNOWLEDGE</span><b id="knowledge">0</b></div>
+          <div><span>LINK</span><b id="linkState">RUNNING</b></div>
+          <div><span>BACKGROUND</span><b id="backgroundTime">0 sec</b></div>
         </div>
       </section>
 
-      <div class="event-zone" id="eventZone" hidden>
-        <div class="event-title">!!! BANDWIDTH ANOMALY DETECTED !!!</div>
-        <button id="eventBtn" class="ascii-button event-button" type="button">
+      <div class="pause-zone" id="pauseZone" hidden>
+        <div class="pause-title">!!! CONNECTION LOST :: DOWNLOAD PAUSED !!!</div>
+        <div class="pause-detail" id="pauseDetail">Manual reconnect required.</div>
+        <button id="resumeBtn" class="ascii-button resume-button" type="button">
           <span>+----------------------------------+</span>
-          <span>|       [ CAPTURE BURST ]          |</span>
+          <span>|      [ RESUME DOWNLOAD ]         |</span>
           <span>+----------------------------------+</span>
         </button>
       </div>
@@ -60,7 +61,7 @@
         <span>|          [ DOWNLOAD ]            |</span>
         <span>+----------------------------------+</span>
       </button>
-      <div class="combo-bar" id="comboBar">COMBO [..........] x1.00</div>
+      <div class="uptime-line" id="uptimeLine">LINK WINDOW :: 00:45 - 01:30</div>
 
       <section class="layout">
         <section class="panel upgrades">

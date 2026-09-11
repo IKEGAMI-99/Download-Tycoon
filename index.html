@@ -16,99 +16,27 @@
 <body>
   <main class="terminal" id="terminal">
     <header class="topbar">
-      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.4</span></div>
-      <div class="top-actions">
-        <button id="installBtn" class="install-button" type="button">[ INSTALL PWA ]</button>
-        <div class="status" id="connectionStatus"><span class="dot"></span> ONLINE</div>
-      </div>
+      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.5</span></div>
+      <div class="top-actions"><button id="installBtn" class="install-button" type="button">[ INSTALL PWA ]</button><div class="status" id="connectionStatus"><span class="dot"></span> ONLINE</div></div>
     </header>
-
     <section class="screen">
       <div class="rankline"><span id="networkRank">RANK 0 :: LOCAL USER</span><span id="nextRank">NEXT: 1.00 GB</span></div>
       <div class="ascii-map" id="asciiMap" aria-hidden="true"></div>
-
       <section class="panel transfer-panel">
-        <div class="line"><span>FILE</span><b id="fileName">cat_photo_FINAL_final_v7.zip</b></div>
-        <div class="line"><span>SIZE</span><b id="fileSize">12.00 MB</b></div>
-        <div class="progress-wrap">
-          <div class="progress-label"><span id="progressText">0.00%</span><span id="progressAmount">0 B / 12.00 MB</span></div>
-          <div class="progress" id="progressBar">[........................................]</div>
-        </div>
-        <div class="speed-hero">
-          <span>DOWNLOAD SPEED</span>
-          <b id="speed">0 B/s</b>
-        </div>
-        <div class="stats-grid compact-stats">
-          <div><span>CLICK</span><b id="clickPower">64.00 KB</b></div>
-          <div><span>PACKETS</span><b id="packets">0</b></div>
-          <div><span>RUN DATA</span><b id="totalData">0 B</b></div>
-          <div><span>FILES</span><b id="filesDone">0</b></div>
-          <div><span>LINK</span><b id="linkState">RUNNING</b></div>
-          <div><span>BACKGROUND</span><b id="backgroundTime">0 sec</b></div>
-        </div>
+        <div class="line"><span>FILE</span><b id="fileName">ねこ写真_最終版.zip</b></div><div class="line"><span>SIZE</span><b id="fileSize">12.00 MB</b></div>
+        <div class="progress-wrap"><div class="progress-label"><span id="progressText">0.00%</span><span id="progressAmount">0 B / 12.00 MB</span></div><div class="progress" id="progressBar">[........................................]</div></div>
+        <div class="speed-hero"><span>DOWNLOAD SPEED</span><b id="speed">0 B/s</b></div>
+        <div class="stats-grid compact-stats"><div><span>CLICK</span><b id="clickPower">64.00 KB</b></div><div><span>PACKETS</span><b id="packets">0</b></div><div><span>RUN DATA</span><b id="totalData">0 B</b></div><div><span>FILES</span><b id="filesDone">0</b></div><div><span>LINK</span><b id="linkState">RUNNING</b></div><div><span>BACKGROUND</span><b id="backgroundTime">0 sec</b></div></div>
       </section>
-
-      <div class="pause-zone" id="pauseZone" hidden>
-        <div class="pause-title">!!! CONNECTION LOST :: DOWNLOAD PAUSED !!!</div>
-        <div class="pause-detail" id="pauseDetail">Manual reconnect required.</div>
-        <button id="resumeBtn" class="ascii-button resume-button" type="button">
-          <span>+----------------------------------+</span>
-          <span>|      [ RESUME DOWNLOAD ]         |</span>
-          <span>+----------------------------------+</span>
-        </button>
-      </div>
-
-      <button class="ascii-button primary" id="downloadBtn" type="button">
-        <span>+----------------------------------+</span>
-        <span>|          [ DOWNLOAD ]            |</span>
-        <span>+----------------------------------+</span>
-      </button>
-      <div class="uptime-line" id="uptimeLine">LINK WINDOW :: 00:45 - 01:30</div>
-
-      <section class="layout">
-        <section class="panel upgrades">
-          <div class="wallet-bar">
-            <div><span>AVAILABLE BANK</span><b id="bankData">0 B</b></div>
-            <div><span>DOWNLOAD FAIL RISK</span><b id="failRisk">0.80%</b></div>
-          </div>
-          <div class="panel-title">:: HARDWARE / AUTOMATION ::</div>
-          <div id="upgradeList"></div>
-        </section>
-
-        <section class="side-stack">
-          <section class="panel contract-panel">
-            <div class="panel-title">:: ACTIVE CONTRACT ::</div>
-            <div id="contract" class="contract"></div>
-          </section>
-          <section class="panel achievement-panel">
-            <div class="panel-title">:: ACHIEVEMENTS :: <span id="achievementCount"></span></div>
-            <div id="achievements" class="achievements"></div>
-          </section>
-          <section class="panel log-panel">
-            <div class="panel-title">:: SYSTEM LOG ::</div>
-            <div class="logs" id="logs" aria-live="polite"></div>
-          </section>
-        </section>
-      </section>
-
-      <section class="panel reboot-panel" id="rebootPanel">
-        <div>
-          <b>:: NETWORK REBOOT / PRESTIGE ::</b>
-          <span id="rebootInfo">Reach 1 PB this run to unlock.</span>
-        </div>
-        <button id="rebootBtn" class="text-button reboot-button" type="button" disabled>[ REBOOT NETWORK ]</button>
-      </section>
+      <div class="pause-zone" id="pauseZone" hidden><div class="pause-title">!!! CONNECTION LOST :: DOWNLOAD PAUSED !!!</div><div class="pause-detail" id="pauseDetail">Manual reconnect required.</div><button id="resumeBtn" class="ascii-button resume-button" type="button"><span>+----------------------------------+</span><span>|      [ RESUME DOWNLOAD ]         |</span><span>+----------------------------------+</span></button></div>
+      <button class="ascii-button primary" id="downloadBtn" type="button"><span>+----------------------------------+</span><span>|          [ DOWNLOAD ]            |</span><span>+----------------------------------+</span></button><div class="uptime-line" id="uptimeLine">LINK WINDOW :: 00:45 - 01:30</div>
+      <section class="layout"><section class="panel upgrades"><div class="wallet-bar"><div><span>AVAILABLE BANK</span><b id="bankData">0 B</b></div><div><span>DOWNLOAD FAIL RISK</span><b id="failRisk">0.80%</b></div></div><div class="panel-title">:: HARDWARE / AUTOMATION ::</div><div id="upgradeList"></div></section>
+        <section class="side-stack"><section class="panel contract-panel"><div class="panel-title">:: ACTIVE CONTRACT ::</div><div id="contract" class="contract"></div></section><section class="panel achievement-panel"><div class="panel-title">:: ACHIEVEMENTS :: <span id="achievementCount"></span></div><div id="achievements" class="achievements"></div></section><section class="panel log-panel"><div class="panel-title">:: SYSTEM LOG ::</div><div class="logs" id="logs" aria-live="polite"></div></section></section></section>
+      <section class="panel reboot-panel" id="rebootPanel"><div><b>:: NETWORK REBOOT / PRESTIGE ::</b><span id="rebootInfo">Reach 1 PB this run to unlock.</span></div><button id="rebootBtn" class="text-button reboot-button" type="button" disabled>[ REBOOT NETWORK ]</button></section>
     </section>
-
-    <footer>
-      <span id="saveState">AUTO-SAVE ENABLED</span>
-      <div class="footer-actions"><button id="installBtnFooter" class="text-button" type="button">[ INSTALL ]</button><button id="resetBtn" class="text-button" type="button">[ RESET SAVE ]</button></div>
-    </footer>
+    <footer><span id="saveState">AUTO-SAVE ENABLED</span><div class="footer-actions"><button id="installBtnFooter" class="text-button" type="button">[ INSTALL ]</button><button id="resetBtn" class="text-button" type="button">[ RESET SAVE ]</button></div></footer>
   </main>
-
-  <div class="toast" id="toast" hidden></div>
-  <div class="float-layer" id="floatLayer" aria-hidden="true"></div>
-  <script src="game.js"></script>
-  <script src="connection-patch.js"></script>
+  <div class="toast" id="toast" hidden></div><div class="float-layer" id="floatLayer" aria-hidden="true"></div>
+  <script src="game.js"></script><script src="file-list.js"></script><script src="connection-patch.js"></script>
 </body>
 </html>

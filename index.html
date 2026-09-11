@@ -4,7 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050807" />
-  <meta name="description" content="A terminal-style incremental download tycoon game." />
+  <meta name="description" content="ASCII terminal incremental game. Build a network, automate downloads, and scale beyond Earth." />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Download Tycoon</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
@@ -13,11 +16,15 @@
 <body>
   <main class="terminal" id="terminal">
     <header class="topbar">
-      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.1</span></div>
-      <div class="status"><span class="dot"></span> ONLINE</div>
+      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.2</span></div>
+      <div class="top-actions">
+        <button id="installBtn" class="install-button" type="button">[ INSTALL PWA ]</button>
+        <div class="status"><span class="dot"></span> ONLINE</div>
+      </div>
     </header>
 
     <section class="screen">
+      <div class="rankline"><span id="networkRank">RANK 0 :: LOCAL USER</span><span id="nextRank">NEXT: 1.00 GB</span></div>
       <div class="ascii-map" id="asciiMap" aria-hidden="true"></div>
 
       <section class="panel transfer-panel">
@@ -28,18 +35,32 @@
           <div class="progress" id="progressBar">[........................................]</div>
         </div>
         <div class="stats-grid">
+          <div><span>BANK</span><b id="bankData">0 B</b></div>
           <div><span>SPEED</span><b id="speed">0 B/s</b></div>
           <div><span>CLICK</span><b id="clickPower">64.00 KB</b></div>
-          <div><span>TOTAL</span><b id="totalData">0 B</b></div>
           <div><span>PACKETS</span><b id="packets">0</b></div>
+          <div><span>RUN DATA</span><b id="totalData">0 B</b></div>
+          <div><span>FILES</span><b id="filesDone">0</b></div>
+          <div><span>COMBO</span><b id="combo">x1.00</b></div>
+          <div><span>KNOWLEDGE</span><b id="knowledge">0</b></div>
         </div>
       </section>
+
+      <div class="event-zone" id="eventZone" hidden>
+        <div class="event-title">!!! BANDWIDTH ANOMALY DETECTED !!!</div>
+        <button id="eventBtn" class="ascii-button event-button" type="button">
+          <span>+----------------------------------+</span>
+          <span>|       [ CAPTURE BURST ]          |</span>
+          <span>+----------------------------------+</span>
+        </button>
+      </div>
 
       <button class="ascii-button primary" id="downloadBtn" type="button">
         <span>+----------------------------------+</span>
         <span>|          [ DOWNLOAD ]            |</span>
         <span>+----------------------------------+</span>
       </button>
+      <div class="combo-bar" id="comboBar">COMBO [..........] x1.00</div>
 
       <section class="layout">
         <section class="panel upgrades">
@@ -47,19 +68,38 @@
           <div id="upgradeList"></div>
         </section>
 
-        <section class="panel log-panel">
-          <div class="panel-title">:: SYSTEM LOG ::</div>
-          <div class="logs" id="logs" aria-live="polite"></div>
+        <section class="side-stack">
+          <section class="panel contract-panel">
+            <div class="panel-title">:: ACTIVE CONTRACT ::</div>
+            <div id="contract" class="contract"></div>
+          </section>
+          <section class="panel achievement-panel">
+            <div class="panel-title">:: ACHIEVEMENTS :: <span id="achievementCount"></span></div>
+            <div id="achievements" class="achievements"></div>
+          </section>
+          <section class="panel log-panel">
+            <div class="panel-title">:: SYSTEM LOG ::</div>
+            <div class="logs" id="logs" aria-live="polite"></div>
+          </section>
         </section>
+      </section>
+
+      <section class="panel reboot-panel" id="rebootPanel">
+        <div>
+          <b>:: NETWORK REBOOT / PRESTIGE ::</b>
+          <span id="rebootInfo">Reach 1 PB this run to unlock.</span>
+        </div>
+        <button id="rebootBtn" class="text-button reboot-button" type="button" disabled>[ REBOOT NETWORK ]</button>
       </section>
     </section>
 
     <footer>
       <span id="saveState">AUTO-SAVE ENABLED</span>
-      <button id="resetBtn" class="text-button" type="button">[ RESET SAVE ]</button>
+      <div class="footer-actions"><button id="installBtnFooter" class="text-button" type="button">[ INSTALL ]</button><button id="resetBtn" class="text-button" type="button">[ RESET SAVE ]</button></div>
     </footer>
   </main>
 
+  <div class="toast" id="toast" hidden></div>
   <div class="float-layer" id="floatLayer" aria-hidden="true"></div>
   <script src="game.js"></script>
 </body>

@@ -1,4 +1,4 @@
-const CACHE='download-tycoon-v3-1';
+const CACHE='download-tycoon-v4';
 const ASSETS=['./','./index.html','./style.css','./game.js','./connection-patch.js','./manifest.json','./icon.svg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

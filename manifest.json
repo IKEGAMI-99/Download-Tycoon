@@ -1,0 +1,19 @@
+{
+  "name": "Download Tycoon",
+  "short_name": "D-Tycoon",
+  "description": "Terminal-style incremental download tycoon game.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050807",
+  "theme_color": "#050807",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

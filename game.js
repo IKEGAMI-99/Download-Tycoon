@@ -4,9 +4,17 @@ const V1_STORAGE_KEY='download-tycoon-save-v1';
 const MB=1024**2, GB=1024**3, TB=1024**4, PB=1024**5, EB=1024**6, ZB=1024**7, YB=1024**8;
 
 const files=[
-  ['cat_photo.zip',12*MB],['game_patch.iso',680*MB],['movie_archive.mkv',18*GB],['linux_mirror.img',2.4*TB],
-  ['cloud_snapshot.tar',64*TB],['internet_archive.dat',4.8*PB],['GLOBAL_NETWORK_BACKUP',82*EB],
-  ['EARTH_DATASET',4.2*ZB],['LUNAR_ARCHIVE',96*ZB],['SOLAR_SYSTEM_CACHE',1.8*YB],['UNIVERSE_BACKUP.tar',999*YB]
+  ['cat_photo_FINAL_final_v7.zip',12*MB],
+  ['totally_legit_game_patch_REAL.iso',680*MB],
+  ['movie_archive_please_delete_this.mkv',18*GB],
+  ['browser_tabs_8473.session',2.4*TB],
+  ['family_group_chat_backup_FINAL2.tar',64*TB],
+  ['internet_history_definitely_deleted.db',4.8*PB],
+  ['ENTIRE_CLOUD_DO_NOT_TOUCH.tar',82*EB],
+  ['EARTH_backup_before_monday.img',4.2*ZB],
+  ['MOON_wifi_passwords.txt',96*ZB],
+  ['SOLAR_SYSTEM_cache_DO_NOT_CLEAR.bin',1.8*YB],
+  ['UNIVERSE_final_v27_REALFINAL.tar',999*YB]
 ];
 
 const upgrades=[
@@ -15,6 +23,7 @@ const upgrades=[
   {id:'stabilizer',name:'LINK STABILIZER',desc:'回線停止までの平均時間 x1.45',base:24*MB,scale:1.95,stability:1.45,unlock:4*MB},
   {id:'keepalive',name:'KEEP-ALIVE DAEMON',desc:'アプリ終了後も +5分 ダウンロード',base:72*MB,scale:1.9,offlineSec:300,unlock:16*MB},
   {id:'ssd',name:'SSD CACHE',desc:'クリック +512 KB',base:64*MB,scale:1.72,click:512*1024,unlock:16*MB},
+  {id:'ecc',name:'ERROR CORRECTOR',desc:'ファイル失敗率 x0.55',base:220*MB,scale:2.05,failReduce:.55,unlock:64*MB},
   {id:'fiber',name:'FIBER LINE',desc:'自動転送 +2 MB/s',base:180*MB,scale:1.76,dps:2*MB,unlock:64*MB},
   {id:'router',name:'10G ROUTER',desc:'クリック +8 MB',base:2*GB,scale:1.78,click:8*MB,unlock:512*MB},
   {id:'rack',name:'SERVER RACK',desc:'自動転送 +64 MB/s',base:8*GB,scale:1.80,dps:64*MB,unlock:2*GB},
@@ -49,13 +58,13 @@ const achievementDefs=[
   ['first','FIRST PACKET',s=>s.packets>=1],['click1000','PACKET STORM',s=>s.packets>=1000],['gig','GIGABYTE',s=>s.lifetimeTotal>=GB],
   ['tera','TERABYTE',s=>s.lifetimeTotal>=TB],['speed','GIGABIT? TRY GIGABYTE',()=>rawSpeed()>=GB],['files','ARCHIVIST',s=>s.filesDone>=5],
   ['drop','CONNECTION LOST',s=>s.interruptions>=1],['reconnect','RECONNECTED',s=>s.resumes>=1],['stable','STABLE LINK',s=>(s.upgrades.stabilizer||0)>=3],
-  ['background','BACKGROUND JOB',s=>(s.upgrades.keepalive||0)>=1],['reboot','REBOOTED',s=>s.knowledge>=1],
-  ['global','GLOBALIZED',s=>(s.upgrades.backbone||0)>=1],['orbit','ORBITAL',s=>(s.upgrades.satellite||0)>=1],['quantum','QUANTUM NET',s=>(s.upgrades.quantum||0)>=1]
+  ['background','BACKGROUND JOB',s=>(s.upgrades.keepalive||0)>=1],['failed','TASK FAILED SUCCESSFULLY',s=>s.failures>=1],['ecc','PARITY ENJOYER',s=>(s.upgrades.ecc||0)>=2],
+  ['reboot','REBOOTED',s=>s.knowledge>=1],['global','GLOBALIZED',s=>(s.upgrades.backbone||0)>=1],['orbit','ORBITAL',s=>(s.upgrades.satellite||0)>=1],['quantum','QUANTUM NET',s=>(s.upgrades.quantum||0)>=1]
 ];
 
 const defaultState=()=>({
   data:0,runTotal:0,lifetimeTotal:0,progress:0,fileIndex:0,clickPower:64*1024,baseDps:0,multiplier:1,
-  packets:0,filesDone:0,upgrades:{},knowledge:0,achievements:{},contractIndex:0,lastSeen:Date.now(),
+  packets:0,filesDone:0,failures:0,upgrades:{},knowledge:0,achievements:{},contractIndex:0,lastSeen:Date.now(),
   paused:false,pauseReason:'',interruptions:0,resumes:0,closedRunning:false
 });
 
@@ -64,7 +73,7 @@ let state=load(),dirty=true,lastFrame=performance.now(),nextInterruptionAt=0,def
 const $=id=>document.getElementById(id);
 const els={
   fileName:$('fileName'),fileSize:$('fileSize'),progressText:$('progressText'),progressAmount:$('progressAmount'),progressBar:$('progressBar'),
-  bankData:$('bankData'),speed:$('speed'),clickPower:$('clickPower'),totalData:$('totalData'),packets:$('packets'),filesDone:$('filesDone'),
+  bankData:$('bankData'),failRisk:$('failRisk'),speed:$('speed'),clickPower:$('clickPower'),totalData:$('totalData'),packets:$('packets'),filesDone:$('filesDone'),
   linkState:$('linkState'),backgroundTime:$('backgroundTime'),uptimeLine:$('uptimeLine'),upgradeList:$('upgradeList'),logs:$('logs'),
   asciiMap:$('asciiMap'),downloadBtn:$('downloadBtn'),terminal:$('terminal'),floatLayer:$('floatLayer'),saveState:$('saveState'),resetBtn:$('resetBtn'),
   networkRank:$('networkRank'),nextRank:$('nextRank'),pauseZone:$('pauseZone'),pauseDetail:$('pauseDetail'),resumeBtn:$('resumeBtn'),
@@ -101,6 +110,7 @@ function clickAmount(){return state.clickPower*state.multiplier*knowledgeMult();
 function stabilityMultiplier(){return Math.pow(1.45,state.upgrades.stabilizer||0);}
 function interruptionRange(){const mult=stabilityMultiplier();return [45000*mult,90000*mult];}
 function offlineWindowSec(){return (state.upgrades.keepalive||0)*300;}
+function failureChance(){return .005*Math.pow(.55,state.upgrades.ecc||0);}
 function scheduleInterruption(){const [min,max]=interruptionRange();nextInterruptionAt=Date.now()+randomMs(min,max);dirty=true;}
 
 function addData(amount,fromClick=false,x=innerWidth/2,y=innerHeight/2){
@@ -108,7 +118,21 @@ function addData(amount,fromClick=false,x=innerWidth/2,y=innerHeight/2){
   if(fromClick){state.packets++;spawnFloat(`+${formatBytes(amount)}`,x,y);els.terminal.classList.remove('flash');void els.terminal.offsetWidth;els.terminal.classList.add('flash');}
   completeFiles();checkContract();checkAchievements();dirty=true;
 }
-function completeFiles(){let guard=0;while(guard++<100){const [,size]=currentFile();if(state.progress<size)break;state.progress-=size;state.filesDone++;const completed=currentFile()[0];const bonus=size*.02;state.data+=bonus;addLog(`DOWNLOAD COMPLETE :: ${completed} :: CHECKSUM BONUS +${formatBytes(bonus)}`,'hot');if(state.fileIndex<files.length-1)state.fileIndex++;else state.progress%=size;}}
+function completeFiles(){
+  let guard=0;
+  while(guard++<100){
+    const [name,size]=currentFile();if(state.progress<size)break;state.progress-=size;
+    if(Math.random()<failureChance()){
+      state.failures++;
+      addLog(`DOWNLOAD FAILED :: ${name} :: CHECKSUM MISMATCH / RETRYING`,'danger');
+      showToast(`DOWNLOAD FAILED :: CHECKSUM MISMATCH / AUTO RETRY`,4200);
+      checkAchievements();
+      continue;
+    }
+    state.filesDone++;const bonus=size*.02;state.data+=bonus;addLog(`DOWNLOAD COMPLETE :: ${name} :: CHECKSUM BONUS +${formatBytes(bonus)}`,'hot');
+    if(state.fileIndex<files.length-1)state.fileIndex++;else state.progress%=size;
+  }
+}
 function spawnFloat(text,x,y){const n=document.createElement('div');n.className='float';n.textContent=text;n.style.left=`${x}px`;n.style.top=`${y}px`;els.floatLayer.appendChild(n);setTimeout(()=>n.remove(),700);}
 function addLog(text,type=''){const line=document.createElement('div');line.className=`log ${type}`;line.textContent=`> ${text}`;els.logs.appendChild(line);while(els.logs.children.length>16)els.logs.firstChild.remove();}
 function showToast(text,ms=3200){clearTimeout(toastTimer);els.toast.textContent=text;els.toast.hidden=false;toastTimer=setTimeout(()=>els.toast.hidden=true,ms);}
@@ -128,6 +152,7 @@ function renderUpgrades(){
     let desc=u.desc;
     if(u.id==='stabilizer'&&isUnlocked)desc=`停止間隔 x${stabilityMultiplier().toFixed(2)} / 平均 ${formatDuration((45+90)/2*stabilityMultiplier())}`;
     if(u.id==='keepalive'&&isUnlocked)desc=`終了後も最大 ${formatDuration(offlineWindowSec())} 継続 / 購入で +5分`;
+    if(u.id==='ecc'&&isUnlocked)desc=`失敗率 ${(failureChance()*100).toFixed(3)}% / 購入ごとに x0.55`;
     b.innerHTML=isUnlocked?`<span class="upgrade-name">[ ${u.name} ] x${count}</span><span class="upgrade-desc">${desc}</span><span class="upgrade-cost">${formatBytes(cost)}</span>`:`<span class="upgrade-name">[ ???????? ]</span><span class="upgrade-desc">UNLOCK @ ${formatBytes(u.unlock)} RUN DATA</span><span class="upgrade-cost">LOCKED</span>`;
     b.onclick=()=>buy(u);els.upgradeList.appendChild(b);
   });
@@ -173,7 +198,7 @@ function render(){
   const [name,size]=currentFile(),pct=Math.min(100,state.progress/size*100),rank=rankInfo();
   els.fileName.textContent=name;els.fileSize.textContent=formatBytes(size);els.progressText.textContent=`${pct.toFixed(2)}%`;els.progressAmount.textContent=`${formatBytes(state.progress)} / ${formatBytes(size)}`;
   const slots=40,fill=Math.round(pct/100*slots);els.progressBar.textContent=`[${'#'.repeat(fill)}${'.'.repeat(slots-fill)}]`;
-  els.bankData.textContent=formatBytes(state.data);els.speed.textContent=formatBytes(speed(),true);els.clickPower.textContent=formatBytes(clickAmount());els.totalData.textContent=formatBytes(state.runTotal);
+  els.bankData.textContent=formatBytes(state.data);els.failRisk.textContent=`${(failureChance()*100).toFixed(3)}%`;els.speed.textContent=formatBytes(speed(),true);els.clickPower.textContent=formatBytes(clickAmount());els.totalData.textContent=formatBytes(state.runTotal);
   els.packets.textContent=state.packets.toLocaleString();els.filesDone.textContent=state.filesDone.toLocaleString();els.linkState.textContent=state.paused?'PAUSED':'RUNNING';els.backgroundTime.textContent=formatDuration(offlineWindowSec());
   els.networkRank.textContent=`RANK ${rank.idx} :: ${rank.name}`;els.nextRank.textContent=rank.next?`NEXT: ${formatBytes(rank.next[0])}`:'MAX RANK';
   els.pauseZone.hidden=!state.paused;els.pauseDetail.textContent=state.pauseReason?`${state.pauseReason} / Manual reconnect required.`:'Manual reconnect required.';els.downloadBtn.disabled=state.paused;
@@ -211,5 +236,5 @@ window.addEventListener('appinstalled',()=>{deferredPrompt=null;updateInstallBut
 els.installBtn.onclick=installPwa;els.installBtnFooter.onclick=installPwa;
 
 applyClosedSession();
-renderMap();checkAchievements();addLog('CONNECTION ESTABLISHED','good');addLog('DOWNLOAD TYCOON v0.3 READY');render();updateInstallButtons();setInterval(save,10000);requestAnimationFrame(loop);
+renderMap();checkAchievements();addLog('CONNECTION ESTABLISHED','good');addLog('DOWNLOAD TYCOON v0.4 READY');render();updateInstallButtons();setInterval(save,10000);requestAnimationFrame(loop);
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js');

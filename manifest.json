@@ -1,13 +1,15 @@
 {
+  "id": "./",
   "name": "Download Tycoon",
   "short_name": "D-Tycoon",
-  "description": "Terminal-style incremental download tycoon game.",
+  "description": "ASCII terminal incremental game. Build a network, automate downloads, and scale beyond Earth.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#050807",
   "theme_color": "#050807",
   "orientation": "any",
+  "categories": ["games"],
   "icons": [
     {
       "src": "icon.svg",

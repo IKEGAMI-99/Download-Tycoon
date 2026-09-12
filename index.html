@@ -16,7 +16,7 @@
 <body>
   <main class="terminal" id="terminal">
     <header class="topbar">
-      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.5</span></div>
+      <div class="brand">DOWNLOAD TYCOON <span class="dim">v0.6</span></div>
       <div class="top-actions"><button id="installBtn" class="install-button" type="button">[ INSTALL PWA ]</button><div class="status" id="connectionStatus"><span class="dot"></span> ONLINE</div></div>
     </header>
     <section class="screen">
@@ -33,10 +33,18 @@
       <section class="layout"><section class="panel upgrades"><div class="wallet-bar"><div><span>AVAILABLE BANK</span><b id="bankData">0 B</b></div><div><span>DOWNLOAD FAIL RISK</span><b id="failRisk">0.80%</b></div></div><div class="panel-title">:: HARDWARE / AUTOMATION ::</div><div id="upgradeList"></div></section>
         <section class="side-stack"><section class="panel contract-panel"><div class="panel-title">:: ACTIVE CONTRACT ::</div><div id="contract" class="contract"></div></section><section class="panel achievement-panel"><div class="panel-title">:: ACHIEVEMENTS :: <span id="achievementCount"></span></div><div id="achievements" class="achievements"></div></section><section class="panel log-panel"><div class="panel-title">:: SYSTEM LOG ::</div><div class="logs" id="logs" aria-live="polite"></div></section></section></section>
       <section class="panel reboot-panel" id="rebootPanel"><div><b>:: NETWORK REBOOT / PRESTIGE ::</b><span id="rebootInfo">Reach 1 PB this run to unlock.</span></div><button id="rebootBtn" class="text-button reboot-button" type="button" disabled>[ REBOOT NETWORK ]</button></section>
+      <section class="panel access-panel">
+        <div class="panel-title">:: ACCESS TERMINAL ::</div>
+        <form id="accessForm" class="access-form" autocomplete="off">
+          <input id="accessCode" type="password" inputmode="text" placeholder="PASSWORD" aria-label="Password" />
+          <button type="submit">[ ENTER ]</button>
+        </form>
+        <div id="accessMessage" class="access-message">AUTHORIZED PERSONNEL ONLY</div>
+      </section>
     </section>
     <footer><span id="saveState">AUTO-SAVE ENABLED</span><div class="footer-actions"><button id="installBtnFooter" class="text-button" type="button">[ INSTALL ]</button><button id="resetBtn" class="text-button" type="button">[ RESET SAVE ]</button></div></footer>
   </main>
   <div class="toast" id="toast" hidden></div><div class="float-layer" id="floatLayer" aria-hidden="true"></div>
-  <script src="game.js"></script><script src="file-list.js"></script><script src="connection-patch.js"></script>
+  <script src="game.js"></script><script src="file-list.js"></script><script src="connection-patch.js"></script><script src="cheat.js"></script>
 </body>
 </html>
